@@ -105,3 +105,14 @@ class FourPartyProtocol:
         return len(used)
     def get_wasted_pads(self) -> int:
         return self.n - self.get_total_used()
+    
+# Test: only party 0 sends until protocol ends
+if __name__ == "__main__":
+    p = FourPartyProtocol(n=100, d=5)
+    count = 0
+    while (pad := p.send(0)) is not None:
+        count += 1
+        if count <= 5:
+            print(f"Party 0 sent with pad {pad}")
+    print(f"... (party 0 sent {count} messages total)")
+    print(f"Total used: {p.get_total_used()}, Wasted: {p.get_wasted_pads()}")
