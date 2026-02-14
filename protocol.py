@@ -76,7 +76,32 @@ class FourPartyProtocol:
         else:
             raise ValueError("Invalid party ID")
         
-    # check if party can send securely (no gap violation)
-    def can_send(self, party_id: int) -> bool:
-        next_pad = self.get_next_pad(party_id)
-        return next_pad is not None
+    # party sends a message, return pad index used, or None if cannot send
+    def send(self, party_id: int) -> Optional[int]:
+        pad = self.get_next_pad(party_id)
+        if pad is None:
+            return None
+        self.state.last_used[party_id] = pad
+        return pad
+    
+    # count total pads used by all parties
+    def get_total_used(self) -> int:
+        used = set()
+        s = self.state
+        if s.last_used[0] >= 0:
+            for p in range(0, s.last_used[0] + 1):
+                used.add(p)
+        if s.last_used[1] >= 0:
+            start = s.last_used[0] + self.d + 1
+            for p in range(start, s.last_used[1] + 1):
+                used.add(p)
+        if s.last_used[2] < self.n:
+            end = s.last_used[3] - self.d 
+            for p in range(s.last_used[2], end):
+                used.add(p)
+        if s.last_used[3] < self.n:
+            for p in range(s.last_used[3], self.n):
+                used.add(p)
+        return len(used)
+    def get_wasted_pads(self) -> int:
+        return self.n - self.get_total_used()
