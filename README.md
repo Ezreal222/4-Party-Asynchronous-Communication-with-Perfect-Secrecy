@@ -33,6 +33,6 @@ Options:
 Scenarios:
 - **S.1**: 1 random party sends
 - **S.2**: 2 random parties send
-- **S.4**: All 4 parties sned
+- **S.4**: All 4 parties send
 
 Each protocol run until at least one party cannot send. Output includes average wasted pads, max and min wasted pads etc.
