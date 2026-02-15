@@ -87,3 +87,60 @@ def run_scenario(
         "min_wasted_pads": min_wasted_pads,
         "wasted_pads_list": wasted_pads_list,
     }
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Test 4-party protocol")
+    parser.add_argument("-n", type=int, default=1000, help="pad sequence length")
+    parser.add_argument("-d", type=int, default=10, help="gap size")
+    parser.add_argument("-e", "--executions", type=int, default=100, help="number of executions")
+    parser.add_argument("--seed", type=int, default=42, help="random seed")
+    args = parser.parse_args()
+    
+    n = args.n
+    d = args.d
+    num_executions = args.executions
+    seed = args.seed
+    
+    print("=" * 60)
+    print("4-Party Protocol Testing")
+    print("=" * 60)
+    print(f"Parameters: n={n}, d={d}, num_executions={num_executions}")
+    print()
+    
+    # Scenario S.1: one randomly chosen party sends
+    s1 = run_scenario("S.1", n, d, None, num_executions, seed)
+    print(f"Scenario S.1 - 1 randomly chosen party:")
+    print(f"  Avg wasted pads: {s1['avg_wasted_pads']:.2f}")
+    print(f"  Avg messages sent: {s1['avg_sent_messages']:.2f}")
+    print(f"  Max wasted: {s1['max_wasted_pads']}, Min wasted: {s1['min_wasted_pads']}")
+    print()    
+    
+    # Scenario S.2: two randomly chosen parties send
+    s2 = run_scenario("S.2", n, d, None, num_executions, seed)
+    print(f"Scenario S.2 - 2 randomly chosen parties:")
+    print(f"  Avg wasted pads: {s2['avg_wasted_pads']:.2f}")
+    print(f"  Avg messages sent: {s2['avg_sent_messages']:.2f}")
+    print(f"  Max wasted: {s2['max_wasted_pads']}, Min wasted: {s2['min_wasted_pads']}")
+    print()    
+    
+    # Scenario S.4: All 4 parties send
+    s4 = run_scenario("S.4", n, d, [0,1,2,3], num_executions, seed)
+    print(f"Scenario S.4 - All 4 parties:")
+    print(f"  Avg wasted pads: {s4['avg_wasted_pads']:.2f}")
+    print(f"  Avg messages sent: {s4['avg_sent_messages']:.2f}")
+    print(f"  Max wasted: {s4['max_wasted_pads']}, Min wasted: {s4['min_wasted_pads']}")
+    print()    
+    
+    # compare to the obvious protocol: (m-1)/m * n wasted pads
+    wasted = (4 - 1) / 4 * n
+    print("Compare to the obvious protocol:")    
+    print(f" Obvious protocol wasted (3n/4): {wasted:.2f}")
+    print(f" Our protocol average wasted S.1: {s1['avg_wasted_pads']:.2f}")
+    print(f" Our protocol average wasted S.2: {s2['avg_wasted_pads']:.2f}")
+    print(f" Our protocol average wasted S.4: {s4['avg_wasted_pads']:.2f}")
+    print()
+    print("=" * 60)
+
+if __name__ == "__main__":
+    main()
