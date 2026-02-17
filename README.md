@@ -1,6 +1,6 @@
 # 4-Party Asynchronous Communication with Perfect Secrecy
 
-This is a Multi-party one-time pad protocol for asynchronous broadcast, using a bidirectional d-gap design.
+This is a Multi-party one-time pad protocol for asynchronous broadcast, using a split-half d-gap design.
 
 ## Requirements
 - Python 3.10+
