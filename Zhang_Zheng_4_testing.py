@@ -6,7 +6,7 @@ Testing program for 4-Party Asynchronous Communication Protocol
 """
 
 import random
-from protocol import FourPartyProtocol
+from Zhang_Zheng_4_protocol import FourPartyProtocol
 
 def run_single_execution(
     n: int,

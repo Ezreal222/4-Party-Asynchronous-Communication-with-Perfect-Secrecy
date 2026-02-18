@@ -10,18 +10,18 @@ No external dependencies. Standard library only.
 ## Quick Demo for Running the Protocol
 
 ```bash
-python protocol.py
+python Zhang_Zheng_4_protocol.py
 ```
 
 ## Running the Testing program
 
 ```bash
-python testing.py
+python Zhang_Zheng_4_testing.py
 ```
 
 With custom parameters you can choose:
 ```bash
-python testing.py -n 2000 -d 20 -e 200 --seed 188
+python Zhang_Zheng_4_testing.py -n 2000 -d 20 -e 200 --seed 188
 ```
 
 Options:
